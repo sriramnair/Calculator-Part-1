@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Calculator 1: Further Study | Devmountain Foundations</title>
+
+      <link
+        href="../_static/pygments.css"
+        rel="stylesheet"
+        type="text/css"
+      />
+      <link href="../_static/devmountain.css" rel="stylesheet" type="text/css" />
+          <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+          <link rel="stylesheet" type="text/css" href="../_static/devmountain.css" />
+          <link rel="stylesheet" type="text/css" href="../_static/plot_directive.css" />
+          <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+
+      <script src="../_static/pdfobject.min.js"></script>
+      
+  </head>
+  <body>
+      <div id="handouts-container">
+        <header id="page-header">
+            <p id="project-title">Devmountain Foundations</p>
+            <p id="page-title">Calculator 1: Further Study</p>
+              <p id="backlink">
+                <a href="/"> &laquo; Back to Homepage </a>
+              </p>
+        </header>
+
+        <nav id="page-toc"><ul>
+<li><a class="reference internal" href="#">Calculator 1: Further Study</a><ul>
+<li><a class="reference internal" href="#adding-two-new-operations">Adding Two New Operations</a><ul>
+<li><a class="reference internal" href="#the-strange-case-of-the-always-true-statement">The Strange Case of the Always True Statement</a></li>
+<li><a class="reference internal" href="#more-github-practice">More GitHub Practice</a></li>
+<li><a class="reference internal" href="#further-reading-on-git">Further Reading on Git</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+
+        <main id="page-content">
+            <section class="section" id="calculator-1-further-study">
+<h1>Calculator 1: Further Study</h1>
+<section class="section" id="adding-two-new-operations">
+<h2>Adding Two New Operations</h2>
+<p>In addition to the functions you’ve finished, the calculator has two other
+operations it wants to be able to perform:</p>
+<ul class="simple">
+<li><p>One that takes <em>three</em> numbers, adds the first two, then multiplies the
+sum with the third. This is given in the syntax <code class="docutils literal notranslate"><span class="pre">x+</span> <span class="pre">num1</span> <span class="pre">num2</span> <span class="pre">num3</span></code>.</p></li>
+<li><p>One that takes two numbers, and adds together the cubes of those numbers.
+This is given in the synax <code class="docutils literal notranslate"><span class="pre">cubes+</span> <span class="pre">num1</span> <span class="pre">num2</span></code>.</p></li>
+</ul>
+<p>For example:</p>
+<pre class="console literal-block">&gt; <span class="cmd">x+ 1 2 3</span>
+9
+
+&gt; <span class="cmd">cubes+ 2 3</span>
+35</pre>
+<p>The calculator program is ready to call these functions, but you need to
+write the functions to handle it. Unlike the earlier functions (<cite>add</cite>, etc),
+we haven’t provided function stubs for these, so you’ll need to make the
+function declarations.</p>
+<ul class="simple">
+<li><p>The name of the “add first two and multiply sum with third” function
+should be <cite>add_mult</cite>.</p></li>
+<li><p>The name of the “cube both numbers and sum them” function should be
+<cite>add_cubes</cite>.</p></li>
+</ul>
+<section class="section" id="the-strange-case-of-the-always-true-statement">
+<h3>The Strange Case of the Always True Statement</h3>
+<p>The following isn’t an addition to <cite>arithmetic.py</cite>, but will help you when you
+write your own version of <cite>calculator.py</cite> in the next lab exercise. (Note:
+it will also help future-you, by teaching you about a particularly tricky bug.)</p>
+<p>Notice that in the sample calculator session given in the main instructions,
+the user was able to exit the program by typing <cite>q</cite>. Suppose we’d like our
+<cite>calculator.py</cite> to recognize both <cite>q</cite> and <cite>quit</cite> as exit instructions.</p>
+<p>You might be tempted to write:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;q&quot;</span> <span class="ow">or</span> <span class="s2">&quot;quit&quot;</span><span class="p">:</span>
+    <span class="c1"># do quitting-type things</span>
+</pre></div>
+</div>
+<p>Looks good, right? Well, let’s try it:</p>
+<pre class="console literal-block">$ <span class="cmd">python</span>
+Python 3.8.2 (default, Dec 21 2020, 15:06:04)
+[Clang 12.0.0 (clang-1200.0.32.29)] on darwin
+Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
+&gt;&gt;&gt; <span class="cmd">command = &quot;q&quot;</span>
+&gt;&gt;&gt; <span class="cmd">command</span>
+'q'
+&gt;&gt;&gt; <span class="cmd">if command == &quot;q&quot; or &quot;quit&quot;:</span>
+...     <span class="cmd">print(&quot;YES!&quot;)</span>
+...
+YES!
+
+&gt;&gt;&gt; <span class="cmd">command = &quot;quit&quot;</span>
+&gt;&gt;&gt; <span class="cmd">command</span>
+'quit'
+&gt;&gt;&gt; <span class="cmd">if command == &quot;q&quot; or &quot;quit&quot;:</span>
+...     <span class="cmd">print(&quot;YES!&quot;)</span>
+...
+YES!
+
+&gt;&gt;&gt; <span class="cmd">command = &quot;keep going!!!!!&quot;</span>
+&gt;&gt;&gt; <span class="cmd">command</span>
+'keep going!!!!!'
+&gt;&gt;&gt; <span class="cmd">if command == &quot;q&quot; or &quot;quit&quot;:</span>
+...     <span class="cmd">print(&quot;YES!&quot;)</span>
+...
+YES!
+&gt;&gt;&gt;</pre>
+<p>Good, good… not so good. Drat! Why is it printing “YES!” even when the
+command <em>isn’t</em> “q” or “quit”?</p>
+<p>To make sense of this, there are two things you need to know.</p>
+<p><strong>Thing 1: The Truth Value of Strings</strong></p>
+<p>In the Python interpreter, try the following:</p>
+<pre class="console literal-block">&gt;&gt;&gt; <span class="cmd">mystring = &quot;something&quot;</span>
+&gt;&gt;&gt;
+&gt;&gt;&gt; <span class="cmd">if mystring:</span>
+...     <span class="cmd">print(&quot;YES!&quot;)</span>
+...
+YES!
+&gt;&gt;&gt;</pre>
+<p>Play around with different values of <cite>mystring</cite>, including an empty string. Are
+there any which evaluate to <cite>False</cite>?</p>
+<p>(You can read more about “Truthiness” and “Falsiness” here; ignore the parts
+about Javascript for the moment:
+<a class="reference external" href="http://opensourcehacker.com/2012/10/17/true-lies-and-falsy-values-in-python-and-javascript" target="_blank">http://opensourcehacker.com/2012/10/17/true-lies-and-falsy-values-in-python-and-javascript</a>.)</p>
+<p><strong>Thing 2: How Humans Read vs. How Python Reads</strong></p>
+<p>What you have:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;q&quot;</span> <span class="ow">or</span> <span class="s2">&quot;quit&quot;</span><span class="p">:</span>
+</pre></div>
+</div>
+<p>What you almost certainly mean (in pseudocode):</p>
+<pre class="literal-block">if command is one of: <em>q</em> or <em>quit</em>:</pre>
+<p>How Python understands it (also pseudocode):</p>
+<pre class="literal-block">if command is &quot;q&quot; <em>or</em> if &quot;quit&quot;:</pre>
+<p><strong>Putting it All Together</strong></p>
+<p>Putting this all together, can you figure out why <code class="docutils literal notranslate"><span class="pre">command</span> <span class="pre">==</span> <span class="pre">&quot;q&quot;</span> <span class="pre">or</span> <span class="pre">&quot;quit&quot;</span></code>
+always evaluates to true? Discuss with your partner. How would you write the
+<cite>if</cite> statement correctly?</p>
+<p>If you think you know the answer to both questions,
+<strong>stop and get a “code” review.</strong></p>
+</section>
+<section class="section" id="more-github-practice">
+<h3>More GitHub Practice</h3>
+<p>Sometime later, find the computer you were using for the guessing game
+exercise. Create a repo on GitHub for the Guessing Game exercise. Repeat the
+steps for adding a <em>git remote</em>, this time using the repo URL from the repo
+you just created. Push your guessing game code to your GitHub as well.</p>
+</section>
+<section class="section" id="further-reading-on-git">
+<h3>Further Reading on Git</h3>
+<p>This is a great time to start learning more about Git.</p>
+<p>A good place to start: <a class="reference external" href="http://try.github.com" target="_blank">http://try.github.com</a></p>
+<p>Here’s a very thorough overview of Git and how it works:
+<a class="reference external" href="http://gsf.hhg.to/git.from.bottom.up.pdf" target="_blank">http://gsf.hhg.to/git.from.bottom.up.pdf</a></p>
+<p>Even more thorough, this book:
+<a class="reference external" href="http://git-scm.com/book/en" target="_blank">http://git-scm.com/book/en</a></p>
+</section>
+</section>
+</section>
+
+        </main>
+
+        <footer id="page-footer">
+            <p>&copy; 2021 Devmountain</p>
+        </footer>
+      </div>
+
+      <script src="../_static/main.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+  </body>
+</html>

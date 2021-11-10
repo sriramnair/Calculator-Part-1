@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Calculator, Part 1: The Arithmetic | Devmountain Foundations</title>
+
+      <link
+        href="_static/pygments.css"
+        rel="stylesheet"
+        type="text/css"
+      />
+      <link href="_static/devmountain.css" rel="stylesheet" type="text/css" />
+          <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+          <link rel="stylesheet" type="text/css" href="_static/devmountain.css" />
+          <link rel="stylesheet" type="text/css" href="_static/plot_directive.css" />
+          <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+
+      <script src="_static/pdfobject.min.js"></script>
+      
+  </head>
+  <body>
+      <div id="handouts-container">
+        <header id="page-header">
+            <p id="project-title">Devmountain Foundations</p>
+            <p id="page-title">Calculator, Part 1: The Arithmetic</p>
+              <p id="backlink">
+                <a href="/"> &laquo; Back to Homepage </a>
+              </p>
+        </header>
+
+        <nav id="page-toc"><ul>
+<li><a class="reference internal" href="#">Calculator, Part 1: The Arithmetic</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#setup">Setup</a></li>
+<li><a class="reference internal" href="#id1">Introduction</a><ul>
+<li><a class="reference internal" href="#calculators-and-notation">Calculators and Notation</a></li>
+<li><a class="reference internal" href="#what-s-an-api">What’s an API?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#completing-functions-for-a-calculator-app">Completing Functions for a Calculator App</a><ul>
+<li><a class="reference internal" href="#how-the-app-works">How the App Works</a></li>
+<li><a class="reference internal" href="#finish-arithmetic-py">Finish <cite>arithmetic.py</cite></a></li>
+<li><a class="reference internal" href="#push-to-github">Push to Github</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#further-study">Further Study</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+
+        <main id="page-content">
+            <section class="section" id="calculator-part-1-the-arithmetic">
+<h1>Calculator, Part 1: The Arithmetic</h1>
+<section class="section" id="introduction">
+<h2>Introduction</h2>
+<p>This exercise will have you complete functions to finish implementing a
+prefix calculator CLI application (an application that runs in the terminal).
+The calculator lets a user add, subtract, multiply, divide, square a
+number, cube a number, raise a number to a given power, and find the remainder
+when one number is divided by another (otherwise known as taking one number
+<cite>mod</cite> another).</p>
+<p>You likely remember completing this same exercise, but in Javascript, during
+the foundations phase of this course. This is your chance to implement a
+program you already understand in your new language– Python!</p>
+</section>
+<section class="section" id="setup">
+<h2>Setup</h2>
+<p>Download the materials for this exercise from Frodo.</p>
+<p>Then, <cite>cd</cite> into the project directory.
+Then, initialize a Git repo, <cite>git add</cite> all relevant files, and make an initial
+commit.</p>
+<pre class="console literal-block">$ <span class="cmd">git init</span>
+$ <span class="cmd">git add calculator.py arithmetic.py</span>
+$ <span class="cmd">git commit -am &quot;Initial commit&quot;</span></pre>
+<div class="admonition note">
+<p class="admonition-title">Friendly Reminder: Git!</p>
+<div class="admonition-body docutils container">
+<p>Make sure to do this at the beginning of every exercise. You don’t
+want to be in a situation where you’re knee-deep in an exercise but you’ve
+forgotten to use Git and then your pet eats your computer, causing you to lose
+all your work! Also, it’s nice having that initial commit to record what your
+project files looked like when you first recieved them.</p>
+</div>
+</div>
+</section>
+<section class="section" id="id1">
+<h2>Introduction</h2>
+<section class="section" id="calculators-and-notation">
+<h3>Calculators and Notation</h3>
+<p>We typically write math equations using <cite>infix notation</cite> like this —
+<span class="math notranslate nohighlight">\(3 + 2\)</span> — where the operator (in this case, the plus sign) goes <em>inside</em>
+the numbers.</p>
+<p>Another way to write equations is with <cite>prefix notation</cite>. As the name implies,
+in prefix notation, operators go <em>before</em> the operands so, instead of
+<span class="math notranslate nohighlight">\(3 + 2\)</span>, you’d write <span class="math notranslate nohighlight">\(+\;3\;2\)</span>.</p>
+<p>One advantage of prefix notation is the ability to have an arbitrary number of
+operands. For example, <span class="math notranslate nohighlight">\(4 + 3 + 2\)</span> in prefix notation is
+<span class="math notranslate nohighlight">\(+\;4\;3\;2\)</span>.</p>
+<p>In this exercise, we will build a basic prefix calculator together. We
+will provide half of the program, and you will code the other half. We
+will use this idea to explore the concept of an <cite>application programming
+interface</cite>.</p>
+</section>
+<section class="section" id="what-s-an-api">
+<h3>What’s an API?</h3>
+<p>An <cite>interface</cite> is a shared boundary between two systems that allows one to
+communicate with the other. For example, a graphical user interface sits between
+you and your computer and gives you the ability to interact with its operating
+system. In software engineering, an application programming interface (API) sits
+between you and your program and allows you to perform various operations using
+your programming language.</p>
+<p>APIs don’t come from the void — they’re implemented by other developers. When
+authors of an API want to distribute their code for other devs to use, they’ll
+publish documentation on their API. API documentation (colloquially, “API docs”)
+will contain information like the names of functions, what those functions
+take as input, and what the functions will output — all the information a dev
+like you would need to know to use the API!</p>
+<p>If you’d like to see examples of good API docs, look no further than the Python
+documentation. Take a moment to <a class="reference external" href="https://docs.python.org/3.6/library/functions.html#abs" target="_blank">click on this link and skim the docs for
+Python’s Built-In Functions API</a>.
+Note that each entry contains key pieces of information:</p>
+<ul class="simple">
+<li><p>The name of the function</p></li>
+<li><p>Its required and optional inputs</p></li>
+<li><p>What the function does and/or what it outputs</p></li>
+</ul>
+<p>Together, these three pieces of information are a functions’s <cite>signature</cite>.</p>
+<p>A function signature is a way of describing a function without going
+into the details of how it operates. For example, consider the following
+function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">square</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return square of x.&quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+</pre></div>
+</div>
+<p>If we were to describe its signature, we’d say,</p>
+<blockquote>
+<div><p>The function <cite>square</cite> accepts a number as input and returns the
+square of that number.</p>
+</div></blockquote>
+<p>Most docs will represent the sentence above like so:</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="square">
+<span class="sig-name descname"><span class="pre">square</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Take a number as an argument and return a number with the value <cite>n²</cite>.</p>
+</dd></dl>
+
+<p>Note that it doesn’t explain how the function works under-the-hood. This makes
+sense — when you want to use a function, you don’t care how it’s been
+implemented; you care about how to make it work.</p>
+<div class="admonition note">
+<p class="admonition-title">API specifications in the workplace</p>
+<div class="admonition-body docutils container">
+<p>In the workplace, it’s rare that you’ll ever work on a project without
+relying on other developers. At some point, I will rely on code that you have
+written. I might even need to rely on code you’ll write in the future!</p>
+<p>If I had to wait on your code to even begin working on my code, that would
+cause a huge delay! Instead, we can work on our code simultaneously as long as
+we agree on an API — you can show me the signatures of the functions you’re
+planning to work on and that’s all I’d need. I would write my code <em>assuming</em>
+that at some point, you will fill in those function signatures with the
+correct implementation.</p>
+</div>
+</div>
+</section>
+</section>
+<section class="section" id="completing-functions-for-a-calculator-app">
+<h2>Completing Functions for a Calculator App</h2>
+<section class="section" id="how-the-app-works">
+<h3>How the App Works</h3>
+<p>We’ve provided a terminal-based prefix calculator app with your exercise
+materials as a Python file called <cite>calculator.py</cite>. It relies on the other file
+we’ve included — <cite>arithmetic.py</cite> — so make sure both files are in the same
+directory. Otherwise, <cite>calculator.py</cite> won’t run.</p>
+<p>First, let’s get oriented by running <cite>calculator.py</cite>. When the app
+starts, try adding 2 numbers together:</p>
+<pre class="console literal-block">$ <span class="cmd">python3 calculator.py</span>
+Enter your equation &gt; <span class="cmd">+ 1 2</span>
+10.0</pre>
+<p>As you can see, <cite>calculator.py</cite> doesn’t work — <code class="docutils literal notranslate"><span class="pre">+</span> <span class="pre">1</span> <span class="pre">2</span></code> is definitely <em>not</em>
+<code class="docutils literal notranslate"><span class="pre">10</span></code>!</p>
+<p>This happens because <cite>calculator.py</cite> relies on functions from <cite>arithmetic.py</cite>
+and the problem with <cite>arithmetic.py</cite> is… well… you should check it out
+and see for yourself. Why do you think <code class="docutils literal notranslate"><span class="pre">+</span> <span class="pre">1</span> <span class="pre">2</span></code> gave <code class="docutils literal notranslate"><span class="pre">10</span></code> instead of <code class="docutils literal notranslate"><span class="pre">3</span></code>?</p>
+<div class="admonition hint">
+<p class="admonition-title">The problem with <cite>arithmetic.py</cite></p>
+<details class="admonition-body"><summary></summary><div class="admonition-body docutils container">
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">Excerpt from arithmetic.py</span></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="n">num1</span><span class="p">,</span> <span class="n">num2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the sum of the two inputs.&quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="mi">10</span>
+</pre></div>
+</div>
+</div>
+</div>
+</details></div>
+</section>
+<section class="section" id="finish-arithmetic-py">
+<h3>Finish <cite>arithmetic.py</cite></h3>
+<p>Your task is to complete the functions in <cite>arithmetic.py</cite> so <cite>calculator.py</cite>
+will actually work. Here’s an example of what the calculator should be able to
+do:</p>
+<pre class="console literal-block">$ <span class="cmd">python3 calculator.py</span>
+Enter your equation &gt; <span class="cmd">+ 1 2</span>
+3.0
+Enter your equation &gt; <span class="cmd">- 10 5</span>
+5.0
+Enter your equation &gt; <span class="cmd">* 2 3</span>
+6.0
+Enter your equation &gt; <span class="cmd">/ 7 2</span>
+3.5
+Enter your equation &gt; <span class="cmd">square 2</span>
+4.0
+Enter your equation &gt; <span class="cmd">cube 3</span>
+27.0
+Enter your equation &gt; <span class="cmd">pow 2 5</span>
+32.0
+Enter your equation &gt; <span class="cmd">mod 10 3</span>
+1.0
+Enter your equation &gt; <span class="cmd">q</span></pre>
+<p>You can start by fixing the <cite>add</cite> function so <code class="docutils literal notranslate"><span class="pre">+</span> <span class="pre">1</span> <span class="pre">2</span></code> prints the proper value
+to the screen. When you’re finished with <cite>add</cite>, run <cite>calculator.py</cite> so you can
+test and double-check that your function works:</p>
+<pre class="console literal-block">$ <span class="cmd">python3 calculator.py</span>
+Enter your equation &gt; <span class="cmd">+ 1 2</span>
+3.0
+Enter your equation &gt; <span class="cmd">+ 100 2</span>
+102.0</pre>
+<p>Then — since you’ve just finished a unit of working code — you should stage
+and commit your changes:</p>
+<pre class="console literal-block">$ <span class="cmd">git add arithmetic.py</span>
+$ <span class="cmd">git commit -am &quot;Completed add function&quot;</span></pre>
+<p>Rinse and repeat for the rest of the functions in <cite>arithmetic.py</cite>. A tip before
+you go: when you encounter errors as you test each function by running
+<cite>calculator.py</cite>, first try to understand where and why the error occurred.
+Read the error messages and apply fixes to one error at a time.</p>
+<p><strong>Stop here and complete the functions in</strong> <cite>arithmetic.py</cite><strong>. Move on
+to the next section when you’re done.</strong></p>
+</section>
+<section class="section" id="push-to-github">
+<h3>Push to Github</h3>
+<p>Create a Github repo if you haven’t already, and push your work to Github.</p>
+<p><strong>Congratulations on completing Calculator 1!</strong></p>
+</section>
+</section>
+<section class="section" id="further-study">
+<h2>Further Study</h2>
+<p>If you have time, move on to the <a class="reference external" href="further-study">Further Study</a>.</p>
+</section>
+</section>
+
+        </main>
+
+        <footer id="page-footer">
+            <p>&copy; 2021 Devmountain</p>
+        </footer>
+      </div>
+
+      <script src="_static/main.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  </body>
+</html>
